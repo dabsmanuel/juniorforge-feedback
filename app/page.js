@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const C = {
@@ -29,7 +31,7 @@ const S = {
     fontFamily: "'DM Sans', sans-serif",
   },
   header: {
-    padding: '28px 40px',
+    padding: '8px 40px',
     borderBottom: `1px solid ${C.border}`,
     display: 'flex',
     alignItems: 'center',
@@ -437,7 +439,7 @@ const LookupStep = ({ onConfirmed, onAlreadySubmitted }) => {
     setErrorMsg('');
 
     try {
-      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback/lookup?name=${encodeURIComponent(name)}`);
+      const res  = await fetch(`https://juniorforge.onrender.com/api/feedback/lookup?name=${encodeURIComponent(name)}`);
       const json = await res.json();
 
       if (!json.success) {
@@ -592,7 +594,7 @@ export default function FeedbackForm() {
     if (!confirmedStartup?.id) return;
     setLoading(true);
     try {
-      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback`, {
+      const res  = await fetch(`https://juniorforge.onrender.com/api/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ startupId: confirmedStartup.id, ...data }),
@@ -761,7 +763,9 @@ export default function FeedbackForm() {
 function Header() {
   return (
     <div style={S.header}>
-      <span style={S.logo}>Junior<span style={S.logoAccent}>Forge</span></span>
+      <Link href="https://juniorforge.com" target="_blank" rel="noopener noreferrer" style={{ color: C.mint, textDecoration: 'underline' }}>
+        <Image src="/images/logowhite.png" alt="JuniorForge" width={100} height={40} />
+      </Link>
       <span style={S.badge}>Founder Feedback</span>
     </div>
   );
