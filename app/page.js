@@ -437,7 +437,7 @@ const LookupStep = ({ onConfirmed, onAlreadySubmitted }) => {
     setErrorMsg('');
 
     try {
-      const res  = await fetch(`http://localhost:5000/api/feedback/lookup?name=${encodeURIComponent(name)}`);
+      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback/lookup?name=${encodeURIComponent(name)}`);
       const json = await res.json();
 
       if (!json.success) {
@@ -592,7 +592,7 @@ export default function FeedbackForm() {
     if (!confirmedStartup?.id) return;
     setLoading(true);
     try {
-      const res  = await fetch('http://localhost:5000/api/feedback', {
+      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ startupId: confirmedStartup.id, ...data }),
